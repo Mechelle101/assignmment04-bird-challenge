@@ -7,10 +7,9 @@
 
   <div id="page">
     <div class="intro">
-      <img class="inset" src="<?php echo url_for('/images/AdobeStock_55807979_thumb.jpeg') ?>" />
-      <h2>Our Inventory of Used Bicycles</h2>
-      <p>Choose the bike you love.</p>
-      <p>We will deliver it to your door and let you try it before you buy it.</p>
+      <img class="inset" src="<?php echo url_for('images/tufted-titmouse.jpg') ?>" />
+      <h2>A list of WNC birds and their information</h2>
+      <p>For PHP OOP practice</p>
     </div>
 
     <table id="inventory">
@@ -24,18 +23,26 @@
         <th>Backyard Tips</th>
       </tr>
 
-      <tr>
-        <td>Brand</td>
-        <td>Model</td>
-        <td>Year</td>
-        <td>Category</td>
-        <td>Gender</td>
-        <td>Color</td>
-        <td>Weight</td>
-        <td>Condition</td>
-        <td>Price</td>
-      </tr>
+      <?php
 
+      $parser = new ParseCSV(PRIVATE_PATH . '/wnc-birds.csv');
+      $bird_array = $parser->parse();
+
+      ?>
+
+      <!-- Loop through the table data -->
+      <?php foreach($bird_array as $args) { ?>
+      <?php $bird = new Bird($args); ?>
+      <tr>
+        <td><?php echo h($bird->common_name); ?></td>
+        <td><?php echo h($bird->habitat); ?></td>
+        <td><?php echo h($bird->food); ?></td>
+        <td><?php echo h($bird->nest_placement); ?></td>
+        <td><?php echo h($bird->behavior); ?></td>
+        <td><?php echo h($bird->conservation_level()); ?></td>
+        <td><?php echo h($bird->food); ?></td>
+      </tr>
+      <?php } ?>
     </table>
   </div>
 
